@@ -40,12 +40,15 @@ MEASUREMENT_DELAYS = {
 class ICP10125:
     sensor_constants = [0, 0, 0, 0]
 
-    def __init__(self, address=None, busNo=1):
+    def __init__(self, address=None, ic2_dev=None):
         if address is None:
             address = DEFAULT_I2C_ADDRESS
         self.address = address
 
-        self.bus = SMBus(busNo)
+        if ic2_dev is None:
+            self.bus = SMBus(1)
+        else:
+            self.bus = ic2_dev
 
         chip_id = self.chip_id()
         if chip_id != CHIP_ID:
